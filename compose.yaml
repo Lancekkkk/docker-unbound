@@ -1,0 +1,46 @@
+name: "dns"
+services:
+  redis:
+    image: "11notes/redis:7.4.5"
+    read_only: true
+    environment:
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      TZ: "Europe/Zurich"
+    networks:
+      backend:
+    volumes:
+      - "redis.etc:/redis/etc"
+      - "redis.var:/redis/var"
+    tmpfs:
+      - "/run:uid=1000,gid=1000"
+    restart: "always"
+  unbound:
+    depends_on:
+      redis:
+        condition: "service_healthy"
+        restart: true
+    image: "11notes/unbound:1.23.1"
+    read_only: true
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - "unbound.etc:/unbound/etc"
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    networks:
+      frontend:
+      backend:
+    sysctls:
+      net.ipv4.ip_unprivileged_port_start: 53
+    restart: "always"
+
+volumes:
+  redis.etc:
+  redis.var:
+  unbound.etc:
+
+networks:
+  frontend:
+  backend:
+    internal: true

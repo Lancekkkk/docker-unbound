@@ -1,0 +1,24 @@
+{
+  "image": "11notes/unbound",
+  "name": "unbound",
+  "root": "/unbound",
+  "semver": {
+    "version": "1.23.1"
+  },
+  "readme": {
+    "description": "Run unbound rootless, distroless and secure by default!",
+    "introduction": "Unbound is a validating, recursive, caching DNS resolver. It is designed to be fast and lean and incorporates modern features based on open standards.",
+    "built": {
+      "unbound": "https://github.com/NLnetLabs/unbound"
+    },
+    "distroless": {
+      "layers": [
+        "11notes/distroless",
+        "11notes/distroless:dnslookup"
+      ]
+    },
+    "comparison": {
+      "image": "klutchell/unbound"
+    }
+  }
+}
