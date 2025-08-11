@@ -44,10 +44,18 @@ Below you find a comparison between this image and the most used or original one
 # COMPOSE ✂️
 ```yaml
 name: "dns"
+
+x-lockdown: &lockdown
+  # prevents write access to the image itself
+  read_only: true
+  # prevents any process within the container to gain more privileges
+  security_opt:
+    - "no-new-privileges=true"
+
 services:
   redis:
     image: "11notes/redis:7.4.5"
-    read_only: true
+    <<: *lockdown
     environment:
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
       TZ: "Europe/Zurich"
@@ -59,13 +67,14 @@ services:
     tmpfs:
       - "/run:uid=1000,gid=1000"
     restart: "always"
+
   unbound:
     depends_on:
       redis:
         condition: "service_healthy"
         restart: true
     image: "11notes/unbound:1.23.1"
-    read_only: true
+    <<: *lockdown
     environment:
       TZ: "Europe/Zurich"
     volumes:
@@ -79,6 +88,39 @@ services:
     sysctls:
       net.ipv4.ip_unprivileged_port_start: 53
     restart: "always"
+
+  # ╔═════════════════════════════════════════════════════╗
+  # ║     DEMO CONTAINER - DO NOT USE IN PRODUCTION!      ║
+  # ╚═════════════════════════════════════════════════════╝
+  # used to view the redis database
+  demo-redis-gui:
+    image: "redis/redisinsight"
+    environment:
+      RI_REDIS_HOST0: "redis"
+      RI_REDIS_PASSWORD0: "${REDIS_PASSWORD}"
+      TZ: "Europe/Zurich"
+    ports:
+      - "3000:5540/tcp"
+    networks:
+      frontend:
+      backend:
+
+  # ╔═════════════════════════════════════════════════════╗
+  # ║     DEMO CONTAINER - DO NOT USE IN PRODUCTION!      ║
+  # ╚═════════════════════════════════════════════════════╝
+  # used to generate 100k DNS queries
+  dnspyre:
+    depends_on:
+      unbound:
+        condition: "service_healthy"
+        restart: true
+    image: "11notes/distroless:dnspyre"
+    command: "--server unbound -c 10 -n 3 -t A --prometheus ':3000' https://raw.githubusercontent.com/11notes/static/refs/heads/main/src/benchmarks/dns/fqdn/10000"
+    read_only: true
+    environment:
+      TZ: "Europe/Zurich"
+    networks:
+      frontend:
 
 volumes:
   redis.etc:
@@ -143,4 +185,4 @@ docker pull quay.io/11notes/unbound:1.23.1
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-unbound/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-unbound/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-unbound/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 04.08.2025, 18:03:09 (CET)*
+*created 11.08.2025, 14:34:03 (CET)*
